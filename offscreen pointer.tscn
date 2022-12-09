@@ -1,0 +1,533 @@
+[gd_scene load_steps=15 format=2]
+
+[ext_resource path="res://main.tscn" type="PackedScene" id=1]
+[ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://scripts/player.gd" type="Script" id=3]
+[ext_resource path="res://scripts/screen edge tracker.gd" type="Script" id=4]
+[ext_resource path="res://scripts/target.gd" type="Script" id=5]
+[ext_resource path="res://assets/tile_0037.png" type="Texture" id=6]
+[ext_resource path="res://assets/tile_0035.png" type="Texture" id=7]
+[ext_resource path="res://assets/tile_0038.png" type="Texture" id=8]
+[ext_resource path="res://assets/tile_0036.png" type="Texture" id=9]
+[ext_resource path="res://assets/20x10.png" type="Texture" id=10]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 16.0
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 20, 10 )
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 22, 11 )
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 22, 11 )
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource( 4 )
+spin = false
+
+[node name="player" type="KinematicBody2D" parent="."]
+position = Vector2( 122, 375 )
+collision_layer = 3
+collision_mask = 3
+script = ExtResource( 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="player"]
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="player"]
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 2 )
+
+[node name="dir" type="Polygon2D" parent="player"]
+color = Color( 1, 0.027451, 0.027451, 0.262745 )
+offset = Vector2( 5, 0 )
+polygon = PoolVector2Array( 75, 0, 25, -25, 25, 25 )
+
+[node name="Camera2D" type="Camera2D" parent="player"]
+current = true
+
+[node name="message" parent="player/Camera2D" instance=ExtResource( 1 )]
+position = Vector2( -320, -240 )
+z_index = 5
+
+[node name="controls" type="Node2D" parent="player/Camera2D"]
+
+[node name="right" type="TouchScreenButton" parent="player/Camera2D/controls"]
+position = Vector2( -320, 160 )
+scale = Vector2( 5, 5 )
+normal = ExtResource( 9 )
+action = "ui_right"
+
+[node name="left" type="TouchScreenButton" parent="player/Camera2D/controls"]
+position = Vector2( -320, 70 )
+scale = Vector2( 5, 5 )
+normal = ExtResource( 8 )
+action = "ui_left"
+
+[node name="up" type="TouchScreenButton" parent="player/Camera2D/controls"]
+position = Vector2( 240, 70 )
+scale = Vector2( 5, 5 )
+normal = ExtResource( 7 )
+action = "ui_up"
+
+[node name="down" type="TouchScreenButton" parent="player/Camera2D/controls"]
+position = Vector2( 240, 160 )
+scale = Vector2( 5, 5 )
+normal = ExtResource( 6 )
+action = "ui_down"
+
+[node name="goals" type="Position2D" parent="."]
+
+[node name="donuts" type="Position2D" parent="goals"]
+position = Vector2( 110, 100 )
+
+[node name="Sprite" type="Sprite" parent="goals/donuts"]
+texture = ExtResource( 10 )
+
+[node name="building2" type="StaticBody2D" parent="goals/donuts"]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="goals/donuts/building2"]
+shape = SubResource( 2 )
+
+[node name="area" type="Area2D" parent="goals/donuts"]
+monitorable = false
+script = ExtResource( 5 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="goals/donuts/area"]
+shape = SubResource( 3 )
+disabled = true
+
+[node name="pizza" type="Position2D" parent="goals"]
+position = Vector2( 470, 220 )
+
+[node name="Sprite" type="Sprite" parent="goals/pizza"]
+texture = ExtResource( 10 )
+
+[node name="building2" type="StaticBody2D" parent="goals/pizza"]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="goals/pizza/building2"]
+shape = SubResource( 2 )
+
+[node name="area" type="Area2D" parent="goals/pizza"]
+monitorable = false
+script = ExtResource( 5 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="goals/pizza/area"]
+shape = SubResource( 4 )
+disabled = true
+
+[node name="fish" type="Position2D" parent="goals"]
+position = Vector2( 330, 399 )
+
+[node name="Sprite" type="Sprite" parent="goals/fish"]
+texture = ExtResource( 10 )
+
+[node name="building2" type="StaticBody2D" parent="goals/fish"]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="goals/fish/building2"]
+shape = SubResource( 2 )
+
+[node name="area" type="Area2D" parent="goals/fish"]
+monitorable = false
+script = ExtResource( 5 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="goals/fish/area"]
+shape = SubResource( 4 )
+disabled = true
+
+[node name="nongoalbuildings" type="Node2D" parent="."]
+
+[node name="A" type="Node2D" parent="nongoalbuildings"]
+
+[node name="buildingA1" type="StaticBody2D" parent="nongoalbuildings/A"]
+position = Vector2( 20, 40 )
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="nongoalbuildings/A/buildingA1"]
+shape = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="nongoalbuildings/A/buildingA1"]
+texture = ExtResource( 10 )
+
+[node name="building2" type="StaticBody2D" parent="nongoalbuildings/A"]
+position = Vector2( 20, 100 )
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="nongoalbuildings/A/building2"]
+shape = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="nongoalbuildings/A/building2"]
+texture = ExtResource( 10 )
+
+[node name="building3" type="StaticBody2D" parent="nongoalbuildings/A"]
+position = Vector2( 20, 160 )
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="nongoalbuildings/A/building3"]
+shape = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="nongoalbuildings/A/building3"]
+texture = ExtResource( 10 )
+
+[node name="building4" type="StaticBody2D" parent="nongoalbuildings/A"]
+position = Vector2( 20, 220 )
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="nongoalbuildings/A/building4"]
+shape = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="nongoalbuildings/A/building4"]
+texture = ExtResource( 10 )
+
+[node name="building5" type="StaticBody2D" parent="nongoalbuildings/A"]
+position = Vector2( 20, 280 )
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="nongoalbuildings/A/building5"]
+shape = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="nongoalbuildings/A/building5"]
+texture = ExtResource( 10 )
+
+[node name="B" type="Node2D" parent="nongoalbuildings"]
+position = Vector2( 90, 0 )
+
+[node name="buildingA1" type="StaticBody2D" parent="nongoalbuildings/B"]
+position = Vector2( 20, 40 )
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="nongoalbuildings/B/buildingA1"]
+shape = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="nongoalbuildings/B/buildingA1"]
+texture = ExtResource( 10 )
+
+[node name="building3" type="StaticBody2D" parent="nongoalbuildings/B"]
+position = Vector2( 20, 160 )
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="nongoalbuildings/B/building3"]
+shape = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="nongoalbuildings/B/building3"]
+texture = ExtResource( 10 )
+
+[node name="building4" type="StaticBody2D" parent="nongoalbuildings/B"]
+position = Vector2( 20, 220 )
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="nongoalbuildings/B/building4"]
+shape = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="nongoalbuildings/B/building4"]
+texture = ExtResource( 10 )
+
+[node name="building5" type="StaticBody2D" parent="nongoalbuildings/B"]
+position = Vector2( 20, 280 )
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="nongoalbuildings/B/building5"]
+shape = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="nongoalbuildings/B/building5"]
+texture = ExtResource( 10 )
+
+[node name="C" type="Node2D" parent="nongoalbuildings"]
+position = Vector2( 180, 0 )
+
+[node name="buildingA1" type="StaticBody2D" parent="nongoalbuildings/C"]
+position = Vector2( 20, 40 )
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="nongoalbuildings/C/buildingA1"]
+shape = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="nongoalbuildings/C/buildingA1"]
+texture = ExtResource( 10 )
+
+[node name="building2" type="StaticBody2D" parent="nongoalbuildings/C"]
+position = Vector2( 20, 100 )
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="nongoalbuildings/C/building2"]
+shape = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="nongoalbuildings/C/building2"]
+texture = ExtResource( 10 )
+
+[node name="building3" type="StaticBody2D" parent="nongoalbuildings/C"]
+position = Vector2( 20, 160 )
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="nongoalbuildings/C/building3"]
+shape = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="nongoalbuildings/C/building3"]
+texture = ExtResource( 10 )
+
+[node name="building4" type="StaticBody2D" parent="nongoalbuildings/C"]
+position = Vector2( 20, 220 )
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="nongoalbuildings/C/building4"]
+shape = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="nongoalbuildings/C/building4"]
+texture = ExtResource( 10 )
+
+[node name="building5" type="StaticBody2D" parent="nongoalbuildings/C"]
+position = Vector2( 20, 280 )
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="nongoalbuildings/C/building5"]
+shape = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="nongoalbuildings/C/building5"]
+texture = ExtResource( 10 )
+
+[node name="D" type="Node2D" parent="nongoalbuildings"]
+position = Vector2( 270, 0 )
+
+[node name="buildingA1" type="StaticBody2D" parent="nongoalbuildings/D"]
+position = Vector2( 20, 40 )
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="nongoalbuildings/D/buildingA1"]
+shape = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="nongoalbuildings/D/buildingA1"]
+texture = ExtResource( 10 )
+
+[node name="building2" type="StaticBody2D" parent="nongoalbuildings/D"]
+position = Vector2( 20, 100 )
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="nongoalbuildings/D/building2"]
+shape = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="nongoalbuildings/D/building2"]
+texture = ExtResource( 10 )
+
+[node name="building3" type="StaticBody2D" parent="nongoalbuildings/D"]
+position = Vector2( 20, 160 )
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="nongoalbuildings/D/building3"]
+shape = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="nongoalbuildings/D/building3"]
+texture = ExtResource( 10 )
+
+[node name="building4" type="StaticBody2D" parent="nongoalbuildings/D"]
+position = Vector2( 20, 220 )
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="nongoalbuildings/D/building4"]
+shape = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="nongoalbuildings/D/building4"]
+texture = ExtResource( 10 )
+
+[node name="building5" type="StaticBody2D" parent="nongoalbuildings/D"]
+position = Vector2( 20, 280 )
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="nongoalbuildings/D/building5"]
+shape = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="nongoalbuildings/D/building5"]
+texture = ExtResource( 10 )
+
+[node name="E" type="Node2D" parent="nongoalbuildings"]
+position = Vector2( 360, 0 )
+
+[node name="buildingA1" type="StaticBody2D" parent="nongoalbuildings/E"]
+position = Vector2( 20, 40 )
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="nongoalbuildings/E/buildingA1"]
+shape = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="nongoalbuildings/E/buildingA1"]
+texture = ExtResource( 10 )
+
+[node name="building2" type="StaticBody2D" parent="nongoalbuildings/E"]
+position = Vector2( 20, 100 )
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="nongoalbuildings/E/building2"]
+shape = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="nongoalbuildings/E/building2"]
+texture = ExtResource( 10 )
+
+[node name="building3" type="StaticBody2D" parent="nongoalbuildings/E"]
+position = Vector2( 20, 160 )
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="nongoalbuildings/E/building3"]
+shape = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="nongoalbuildings/E/building3"]
+texture = ExtResource( 10 )
+
+[node name="building4" type="StaticBody2D" parent="nongoalbuildings/E"]
+position = Vector2( 20, 220 )
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="nongoalbuildings/E/building4"]
+shape = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="nongoalbuildings/E/building4"]
+texture = ExtResource( 10 )
+
+[node name="building5" type="StaticBody2D" parent="nongoalbuildings/E"]
+position = Vector2( 20, 280 )
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="nongoalbuildings/E/building5"]
+shape = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="nongoalbuildings/E/building5"]
+texture = ExtResource( 10 )
+
+[node name="G" type="Node2D" parent="nongoalbuildings"]
+position = Vector2( 540, 0 )
+
+[node name="buildingA1" type="StaticBody2D" parent="nongoalbuildings/G"]
+position = Vector2( 20, 40 )
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="nongoalbuildings/G/buildingA1"]
+shape = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="nongoalbuildings/G/buildingA1"]
+texture = ExtResource( 10 )
+
+[node name="building2" type="StaticBody2D" parent="nongoalbuildings/G"]
+position = Vector2( 20, 100 )
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="nongoalbuildings/G/building2"]
+shape = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="nongoalbuildings/G/building2"]
+texture = ExtResource( 10 )
+
+[node name="building3" type="StaticBody2D" parent="nongoalbuildings/G"]
+position = Vector2( 20, 160 )
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="nongoalbuildings/G/building3"]
+shape = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="nongoalbuildings/G/building3"]
+texture = ExtResource( 10 )
+
+[node name="building4" type="StaticBody2D" parent="nongoalbuildings/G"]
+position = Vector2( 20, 220 )
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="nongoalbuildings/G/building4"]
+shape = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="nongoalbuildings/G/building4"]
+texture = ExtResource( 10 )
+
+[node name="building5" type="StaticBody2D" parent="nongoalbuildings/G"]
+position = Vector2( 20, 280 )
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="nongoalbuildings/G/building5"]
+shape = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="nongoalbuildings/G/building5"]
+texture = ExtResource( 10 )
+
+[node name="F" type="Node2D" parent="nongoalbuildings"]
+position = Vector2( 450, 0 )
+
+[node name="buildingA1" type="StaticBody2D" parent="nongoalbuildings/F"]
+position = Vector2( 20, 40 )
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="nongoalbuildings/F/buildingA1"]
+shape = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="nongoalbuildings/F/buildingA1"]
+texture = ExtResource( 10 )
+
+[node name="building2" type="StaticBody2D" parent="nongoalbuildings/F"]
+position = Vector2( 20, 100 )
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="nongoalbuildings/F/building2"]
+shape = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="nongoalbuildings/F/building2"]
+texture = ExtResource( 10 )
+
+[node name="building3" type="StaticBody2D" parent="nongoalbuildings/F"]
+position = Vector2( 20, 160 )
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="nongoalbuildings/F/building3"]
+shape = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="nongoalbuildings/F/building3"]
+texture = ExtResource( 10 )
+
+[node name="building5" type="StaticBody2D" parent="nongoalbuildings/F"]
+position = Vector2( 20, 280 )
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="nongoalbuildings/F/building5"]
+shape = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="nongoalbuildings/F/building5"]
+texture = ExtResource( 10 )
+
+[connection signal="body_entered" from="goals/donuts/area" to="goals/donuts/area" method="_on_Area2D_body_entered"]
+[connection signal="body_entered" from="goals/pizza/area" to="goals/pizza/area" method="_on_Area2D_body_entered"]
+[connection signal="body_entered" from="goals/fish/area" to="goals/fish/area" method="_on_Area2D_body_entered"]
